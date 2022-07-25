@@ -3,6 +3,7 @@ package com.example.spring_api.controller;
 import com.example.spring_api.entity.UserEntity;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
+import com.example.spring_api.entity.model.User;
 import com.example.spring_api.entity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
     public ResponseEntity registration(@RequestBody UserEntity user) {
         try {
             userService.registration(user);
-            return ResponseEntity.ok().body(user);
+            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + user.toJson() + "}");
         } catch (UserAlreadyExistException e) {
             return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
         } catch (Exception e) {
@@ -31,7 +32,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(userService.getUser(id));
+            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + userService.getUser(id).get().toJson() + "}");
         } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

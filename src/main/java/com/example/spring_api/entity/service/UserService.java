@@ -3,12 +3,12 @@ package com.example.spring_api.entity.service;
 import com.example.spring_api.entity.UserEntity;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
-import com.example.spring_api.entity.model.User;
 import com.example.spring_api.entity.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,12 +22,12 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public User getUser(Long id) throws UserNotFoundException {
+    public Optional<UserEntity> getUser(Long id) throws UserNotFoundException {
         UserEntity user = userRepo.findById(id).get();
         if (user == null) {
             throw new UserNotFoundException("\"id\": \"Пользователь не найден!\"");
         }
-        return User.toModel(user);
+        return userRepo.findById(id);
     }
 
     public Long deleteUser(Long id) {

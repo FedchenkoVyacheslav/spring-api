@@ -24,6 +24,26 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public String toJson() {
+        return String.format("{\n" +
+                "    \"photoUrl\": \"%s\",\n" +
+                "    \"token\": \"%s\",\n" +
+                "    \"id\": %d,\n" +
+                "    \"email\": \"%s\",\n" +
+                "    \"location\": \"%s\",\n" +
+                "    \"surname\": \"%s\",\n" +
+                "    \"name\": \"%s\",\n" +
+                "    \"password\": \"%s\",\n" +
+                "    \"age\": %d,\n" +
+                "    \"updatedAt\": \"%s\",\n" +
+                "    \"createdAt\": \"%s\",\n" +
+                "    \"deletedAt\": \"%s\"\n" +
+                "}", getPhotoUrl(), getToken(), getId(),
+                getEmail(), getLocation(), getSurname(),
+                getName(), getPassword(), getAge(),
+                getUpdatedAt(), getCreatedAt(), getDeletedAt());
+    }
+
     public Long getId() {
         return id;
     }
