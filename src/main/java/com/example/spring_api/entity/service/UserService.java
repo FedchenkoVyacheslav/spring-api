@@ -1,6 +1,7 @@
 package com.example.spring_api.entity.service;
 
 import com.example.spring_api.entity.UserEntity;
+import com.example.spring_api.entity.exception.ChangeEmailException;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
 import com.example.spring_api.entity.repository.UserRepo;
@@ -35,9 +36,12 @@ public class UserService {
         return null;
     }
 
-    public UserEntity updateUser(String email, int age, String location, String surname, String name, String password) {
+    public UserEntity updateUser(String email, String newEmail, int age, String location, String surname, String name, String password) throws ChangeEmailException {
         UserEntity userEntity = userRepo.findByEmail(email);
-        userEntity.setEmail(email);
+        if (newEmail.equals(email)) {
+            throw new ChangeEmailException("\"email\": \"Новый email не может быть таким же как старый!\"");
+        }
+        userEntity.setEmail(newEmail);
         userEntity.setAge(age);
         userEntity.setLocation(location);
         userEntity.setSurname(surname);

@@ -10,12 +10,12 @@ public class UserEntity {
     private Long id;
     private String photoUrl;
     private String email;
+    private String newEmail;
     private int age;
     private String location;
     private String surname;
     private String name;
     private String password;
-
     private String token;
     private Date updatedAt = new Date(System.currentTimeMillis());
     private Date createdAt = new Date(System.currentTimeMillis());
@@ -26,19 +26,19 @@ public class UserEntity {
 
     public String toJson() {
         return String.format("{\n" +
-                "    \"photoUrl\": \"%s\",\n" +
-                "    \"token\": \"%s\",\n" +
-                "    \"id\": %d,\n" +
-                "    \"email\": \"%s\",\n" +
-                "    \"location\": \"%s\",\n" +
-                "    \"surname\": \"%s\",\n" +
-                "    \"name\": \"%s\",\n" +
-                "    \"password\": \"%s\",\n" +
-                "    \"age\": %d,\n" +
-                "    \"updatedAt\": \"%s\",\n" +
-                "    \"createdAt\": \"%s\",\n" +
-                "    \"deletedAt\": \"%s\"\n" +
-                "}", getPhotoUrl(), getToken(), getId(),
+                        "    \"photoUrl\": \"%s\",\n" +
+                        "    \"token\": \"%s\",\n" +
+                        "    \"id\": %d,\n" +
+                        "    \"email\": \"%s\",\n" +
+                        "    \"location\": \"%s\",\n" +
+                        "    \"surname\": \"%s\",\n" +
+                        "    \"name\": \"%s\",\n" +
+                        "    \"password\": \"%s\",\n" +
+                        "    \"age\": %d,\n" +
+                        "    \"updatedAt\": \"%s\",\n" +
+                        "    \"createdAt\": \"%s\",\n" +
+                        "    \"deletedAt\": \"%s\"\n" +
+                        "}", getPhotoUrl(), getToken(), getId(),
                 getEmail(), getLocation(), getSurname(),
                 getName(), getPassword(), getAge(),
                 getUpdatedAt(), getCreatedAt(), getDeletedAt());
@@ -139,4 +139,8 @@ public class UserEntity {
     public void setAge(int age) {
         this.age = age;
     }
+
+    public String getNewEmail() { return newEmail; }
+
+    public void setNewEmail(String newEmail) { this.newEmail = newEmail; }
 }

@@ -1,9 +1,9 @@
 package com.example.spring_api.controller;
 
 import com.example.spring_api.entity.UserEntity;
+import com.example.spring_api.entity.exception.ChangeEmailException;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
-import com.example.spring_api.entity.model.User;
 import com.example.spring_api.entity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class UserController {
         try {
             return ResponseEntity.ok().body("{\"success\": true, \"data\":" + userService.getUser(id).get().toJson() + "}");
         } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("{\"success\": false, \"id\": \"Пользователь не найден!\"}");
         }
@@ -43,8 +43,11 @@ public class UserController {
     @PutMapping
     public ResponseEntity updateUser(@RequestBody UserEntity user) {
         try {
-            UserEntity userUpdated = userService.updateUser(user.getEmail(), user.getAge(), user.getLocation(), user.getSurname(), user.getName(), user.getPassword());
-            return ResponseEntity.ok().body(userUpdated);
+            UserEntity userUpdated = userService.updateUser(user.getEmail(), user.getNewEmail(), user.getAge(), user.getLocation(),
+                    user.getSurname(), user.getName(), user.getPassword());
+            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + userUpdated.toJson() + "}");
+        } catch (ChangeEmailException e) {
+            return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("{\"success\": false, \"email\": \"Пользователь не найден!\"}");
         }
