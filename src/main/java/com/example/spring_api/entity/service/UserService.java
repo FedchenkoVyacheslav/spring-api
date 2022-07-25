@@ -50,4 +50,14 @@ public class UserService {
         userEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
         return userRepo.save(userEntity);
     }
+
+    public String returnResponse(Boolean status) {
+        String errorMessage = "Пользователь не найден!";
+        return String.format("{\"success\": %b, \"errors\": {\"%s\"}}", status, errorMessage);
+    }
+
+    public String returnResponse(Boolean status, String message) {
+        if (status) return String.format("{\"success\": %b, \"data\": %s}", true, message);
+        else return String.format("{\"success\": %b, \"errors\": {%s}}", false, message);
+    }
 }

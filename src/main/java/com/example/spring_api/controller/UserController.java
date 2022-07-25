@@ -21,22 +21,22 @@ public class UserController {
     public ResponseEntity registration(@RequestBody UserEntity user) {
         try {
             userService.registration(user);
-            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + user.toJson() + "}");
+            return ResponseEntity.ok().body(userService.returnResponse(true, user.toJson()));
         } catch (UserAlreadyExistException e) {
-            return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
+            return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error on saving");
+            return ResponseEntity.badRequest().body(userService.returnResponse(false, "Error on saving!"));
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + userService.getUser(id).get().toJson() + "}");
+            return ResponseEntity.ok().body(userService.returnResponse(true, userService.getUser(id).get().toJson()));
         } catch (UserNotFoundException e) {
-            return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
+            return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"success\": false, \"id\": \"Пользователь не найден!\"}");
+            return ResponseEntity.badRequest().body(userService.returnResponse(false));
         }
     }
 
@@ -45,11 +45,11 @@ public class UserController {
         try {
             UserEntity userUpdated = userService.updateUser(user.getEmail(), user.getNewEmail(), user.getAge(), user.getLocation(),
                     user.getSurname(), user.getName(), user.getPassword());
-            return ResponseEntity.ok().body("{\"success\": true, \"data\":" + userUpdated.toJson() + "}");
+            return ResponseEntity.ok().body(userService.returnResponse(true, userUpdated.toJson()));
         } catch (ChangeEmailException e) {
-            return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
+            return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"success\": false, \"email\": \"Пользователь не найден!\"}");
+            return ResponseEntity.badRequest().body(userService.returnResponse(false));
         }
     }
 
@@ -57,9 +57,9 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
-            return new ResponseEntity("{\"success\": true, \"data\": \"Ок!\"}", HttpStatus.OK);
+            return new ResponseEntity(userService.returnResponse(true, "\"Ok!\""), HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"success\": false, \"email\": \"Пользователь не найден!\"}");
+            return ResponseEntity.badRequest().body(userService.returnResponse(false));
         }
     }
 }
