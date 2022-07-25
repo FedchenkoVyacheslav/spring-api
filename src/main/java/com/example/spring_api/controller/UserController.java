@@ -22,7 +22,6 @@ public class UserController {
             userService.registration(user);
             return ResponseEntity.ok().body(user);
         } catch (UserAlreadyExistException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
             return new ResponseEntity("{\"success\": false, \"errors\": {" + e.getMessage() + "}}", HttpStatus.valueOf(422));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error on saving");
@@ -54,10 +53,9 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
-//            return ResponseEntity.ok().body(userService.deleteUser(id));
             return new ResponseEntity("{\"success\": true, \"data\": \"Ок!\"}", HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body("{\"success\": false, \"email\": \"Пользователь не найден!\"}");
         }
     }
 }
