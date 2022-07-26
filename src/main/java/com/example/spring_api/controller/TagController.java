@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/tags", produces = "application/json")
 public class TagController {
 
     @Autowired
     private TagsService tagsService;
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:8082/tags")
     public ResponseEntity getTags() {
 
         Iterable<TagEntity> tags = tagsService.getTags();

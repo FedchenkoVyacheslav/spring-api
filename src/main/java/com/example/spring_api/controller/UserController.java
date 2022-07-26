@@ -12,12 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/users", produces = "application/json")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @PostMapping
     public ResponseEntity registration(@RequestBody UserEntity user) {
         try {
@@ -30,6 +32,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable Long id) {
         try {
@@ -41,6 +44,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @PutMapping
     public ResponseEntity updateUser(@RequestBody UserEntity user) {
         try {
@@ -54,6 +58,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         try {
@@ -64,6 +69,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:8082")
     @PostMapping("/login")
     public ResponseEntity loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
         try {
