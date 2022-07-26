@@ -25,7 +25,7 @@ public class UserService {
 
     public UserEntity registration(UserEntity user) throws UserAlreadyExistException {
         if (userRepo.findByEmail(user.getEmail()) != null) {
-            throw new UserAlreadyExistException("\"email\": \"Данный email уже занят!\"");
+            throw new UserAlreadyExistException("\"email\":\"Данный email уже занят!\"");
         }
         String token = getJWTToken(user.getEmail(), user.getPassword());
         user.setToken(token);
@@ -35,7 +35,7 @@ public class UserService {
     public Optional<UserEntity> getUser(Long id) throws UserNotFoundException {
         UserEntity user = userRepo.findById(id).get();
         if (user == null) {
-            throw new UserNotFoundException("\"id\": \"Пользователь не найден!\"");
+            throw new UserNotFoundException("\"id\":\"Пользователь не найден!\"");
         }
         return userRepo.findById(id);
     }
@@ -48,7 +48,7 @@ public class UserService {
     public UserEntity updateUser(String email, String newEmail, int age, String location, String surname, String name, String password) throws ChangeEmailException {
         UserEntity userEntity = userRepo.findByEmail(email);
         if (newEmail.equals(email)) {
-            throw new ChangeEmailException("\"email\": \"Новый email не может быть таким же как старый!\"");
+            throw new ChangeEmailException("\"email\":\"Новый email не может быть таким же как старый!\"");
         }
         userEntity.setEmail(newEmail);
         userEntity.setAge(age);
@@ -63,9 +63,9 @@ public class UserService {
     public UserEntity loginUser(String email, String password) throws UserNotFoundException, AuthorizationException {
         UserEntity user = userRepo.findByEmail(email);
         if (user == null) {
-            throw new UserNotFoundException("\"id\": \"Пользователь не найден!\"");
+            throw new UserNotFoundException("\"id\":\"Пользователь не найден!\"");
         } else if (!user.getPassword().equals(password)) {
-            throw new AuthorizationException("\"id\": \"Данная комбинация email и password не найдена!\"");
+            throw new AuthorizationException("\"id\":\"Данная комбинация email и password не найдена!\"");
         }
         user.setToken(getJWTToken(user.getEmail(), user.getPassword()));
         userRepo.save(user);
@@ -74,12 +74,12 @@ public class UserService {
 
     public String returnResponse(Boolean status) {
         String errorMessage = "Пользователь не найден!";
-        return String.format("{\"success\": %b, \"errors\": {\"%s\"}}", status, errorMessage);
+        return String.format("{\"success\":%b,\"errors\":{\"%s\"}}", status, errorMessage);
     }
 
     public String returnResponse(Boolean status, String message) {
-        if (status) return String.format("{\"success\": %b, \"data\": %s}", true, message);
-        else return String.format("{\"success\": %b, \"errors\": {%s}}", false, message);
+        if (status) return String.format("{\"success\":%b,\"data\":%s}", true, message);
+        else return String.format("{\"success\":%b,\"errors\":{%s}}", false, message);
     }
 
     private String getJWTToken(String email, String password) {

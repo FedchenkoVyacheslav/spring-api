@@ -26,18 +26,18 @@ public class UserEntity {
 
     public String toJson() {
         return String.format("{\n" +
-                        "    \"photoUrl\": \"%s\",\n" +
-                        "    \"token\": \"%s\",\n" +
-                        "    \"id\": %d,\n" +
-                        "    \"email\": \"%s\",\n" +
-                        "    \"location\": \"%s\",\n" +
-                        "    \"surname\": \"%s\",\n" +
-                        "    \"name\": \"%s\",\n" +
-                        "    \"password\": \"%s\",\n" +
-                        "    \"age\": %d,\n" +
-                        "    \"updatedAt\": \"%s\",\n" +
-                        "    \"createdAt\": \"%s\",\n" +
-                        "    \"deletedAt\": \"%s\"\n" +
+                        "\"photoUrl\":\"%s\"," +
+                        "\"token\":\"%s\"," +
+                        "\"id\":%d,\n" +
+                        "\"email\":\"%s\"," +
+                        "\"location\":\"%s\"," +
+                        "\"surname\":\"%s\"," +
+                        "\"name\":\"%s\"," +
+                        "\"password\":\"%s\"," +
+                        "\"age\":%d,\n" +
+                        "\"updatedAt\":\"%s\"," +
+                        "\"createdAt\":\"%s\"," +
+                        "\"deletedAt\":\"%s\"" +
                         "}", getPhotoUrl(), getToken(), getId(),
                 getEmail(), getLocation(), getSurname(),
                 getName(), getPassword(), getAge(),

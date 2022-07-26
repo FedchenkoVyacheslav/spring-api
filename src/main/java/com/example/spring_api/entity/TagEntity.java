@@ -16,6 +16,10 @@ public class TagEntity {
     private String name;
     private String color;
 
+    public String toJson() {
+        return String.format("{\"id\":%d,\"name\":\"%s\",\"color\":\"%s\"}", getId(), getName(), getColor());
+    }
+
     public Long getId() {
         return id;
     }

@@ -13,4 +13,9 @@ public class TagsService {
     public Iterable<TagEntity> getTags() {
         return tagRepo.findAll();
     }
+
+    public String returnResponse(Boolean status, String message) {
+        if (status) return String.format("{\"success\":%b,\"data\":%s}", true, message);
+        else return String.format("{\"success\":%b,\"errors\":{%s}}", false, message);
+    }
 }
