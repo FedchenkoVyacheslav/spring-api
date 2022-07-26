@@ -1,6 +1,7 @@
 package com.example.spring_api.controller;
 
 import com.example.spring_api.entity.UserEntity;
+import com.example.spring_api.entity.exception.AuthorizationException;
 import com.example.spring_api.entity.exception.ChangeEmailException;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/users", produces = "application/json")
@@ -60,6 +63,18 @@ public class UserController {
             return new ResponseEntity(userService.returnResponse(true, "\"Ok!\""), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(userService.returnResponse(false));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+        try {
+            UserEntity user = userService.loginUser(email, password);
+            return ResponseEntity.ok().body(userService.returnResponse(true, user.toJson()));
+        } catch (UserNotFoundException | AuthorizationException e) {
+            return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(userService.returnResponse(false, "Error!"));
         }
     }
 }

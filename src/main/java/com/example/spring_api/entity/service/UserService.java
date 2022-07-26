@@ -1,6 +1,7 @@
 package com.example.spring_api.entity.service;
 
 import com.example.spring_api.entity.UserEntity;
+import com.example.spring_api.entity.exception.AuthorizationException;
 import com.example.spring_api.entity.exception.ChangeEmailException;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
@@ -57,6 +58,16 @@ public class UserService {
         userEntity.setPassword(password);
         userEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
         return userRepo.save(userEntity);
+    }
+
+    public UserEntity loginUser(String email, String password) throws UserNotFoundException, AuthorizationException {
+        UserEntity user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("\"id\": \"Пользователь не найден!\"");
+        } else if (!user.getPassword().equals(password)) {
+            throw new AuthorizationException("\"id\": \"Данная комбинация email и password не найдена!\"");
+        }
+        return user;
     }
 
     public String returnResponse(Boolean status) {
