@@ -5,11 +5,17 @@ import com.example.spring_api.entity.exception.ChangeEmailException;
 import com.example.spring_api.entity.exception.UserAlreadyExistException;
 import com.example.spring_api.entity.exception.UserNotFoundException;
 import com.example.spring_api.entity.repository.UserRepo;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -20,6 +26,8 @@ public class UserService {
         if (userRepo.findByEmail(user.getEmail()) != null) {
             throw new UserAlreadyExistException("\"email\": \"Данный email уже занят!\"");
         }
+        String token = getJWTToken(user.getEmail(), user.getPassword());
+        user.setToken(token);
         return userRepo.save(user);
     }
 
@@ -59,5 +67,26 @@ public class UserService {
     public String returnResponse(Boolean status, String message) {
         if (status) return String.format("{\"success\": %b, \"data\": %s}", true, message);
         else return String.format("{\"success\": %b, \"errors\": {%s}}", false, message);
+    }
+
+    private String getJWTToken(String email, String password) {
+        String secretKey = "mySecretKey";
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        String token = Jwts
+                .builder()
+                .setSubject(email)
+                .setSubject(password)
+                .claim("authorities",
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return token;
     }
 }
