@@ -67,6 +67,8 @@ public class UserService {
         } else if (!user.getPassword().equals(password)) {
             throw new AuthorizationException("\"id\": \"Данная комбинация email и password не найдена!\"");
         }
+        user.setToken(getJWTToken(user.getEmail(), user.getPassword()));
+        userRepo.save(user);
         return user;
     }
 
