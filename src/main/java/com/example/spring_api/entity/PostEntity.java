@@ -28,7 +28,7 @@ public class PostEntity {
 	private Date updatedAt = new Date(System.currentTimeMillis());
 	private Date createdAt = new Date(System.currentTimeMillis());
 	private Date deletedAt;
-	@OneToMany
+	@ManyToMany
 	private List<TagEntity> tags;
 
 	public String toJson() {
