@@ -33,7 +33,7 @@ public class SpringApiApplication {
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/users/login", "/tags");
+			web.ignoring().antMatchers("/users/login", "/tags", "/posts");
 		}
 	}
 }
