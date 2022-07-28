@@ -1,5 +1,7 @@
 package com.example.spring_api.entity;
 
+import com.example.spring_api.utils.DateFormatter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,8 +33,8 @@ public class TagEntity {
 
         return String.format("{\"id\":%d,\"postId\":%d,\"tagId\":%d,\"createdAt\":\"%s\",\"updatedAt\":\"%s\",\"deletedAt\":%s," +
                         "\"tag\":{\"id\":%d,\"name\":\"%s\",\"color\":\"%s\",\"createdAt\":\"%s\",\"updatedAt\":\"%s\",\"deletedAt\":%s}}",
-                idTagInPost, postId, getId(), createdAtInPost, updatedAtInPost, deletedAtInPost,
-                getId(), getName(), getColor(), getCreatedAt(), getUpdatedAt(), getDeletedAt());
+                idTagInPost, postId, getId(), DateFormatter.format(createdAtInPost), DateFormatter.format(updatedAtInPost), DateFormatter.format(deletedAtInPost),
+                getId(), getName(), getColor(), DateFormatter.format(getCreatedAt()), DateFormatter.format(getUpdatedAt()), DateFormatter.format(getDeletedAt()));
     }
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package com.example.spring_api.entity;
 
+import com.example.spring_api.utils.DateFormatter;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +42,8 @@ public class PostEntity {
 						"\"mobilePhotoUrl\":\"%s\",\"mobile2xPhotoUrl\":\"%s\",\"title\":\"%s\",\"text\":\"%s\",\"commentsCount\":%d,\"date\":\"%s\"," +
 						"\"views\":%d,\"createdAt\":\"%s\",\"updatedAt\":\"%s\",\"deletedAt\":%s,\"tags\": [%s]}",
 				getId(), getDesktopPhotoUrl(), getDesktop2xPhotoUrl(), getTabletPhotoUrl(), getTablet2xPhotoUrl(), getMobilePhotoUrl(),
-				getMobile2xPhotoUrl(), getTitle(), getText(), getCommentsCount(), getDate(), getViews(), getCreatedAt(),
-				getUpdatedAt(), getDeletedAt(), res.substring(0, res.length() - 1));
+				getMobile2xPhotoUrl(), getTitle(), getText(), getCommentsCount(), DateFormatter.format(getDate()), getViews(), DateFormatter.format(getCreatedAt()),
+				DateFormatter.format(getUpdatedAt()), DateFormatter.format(getDeletedAt()), res.substring(0, res.length() - 1));
 	}
 
 	public int getId() {

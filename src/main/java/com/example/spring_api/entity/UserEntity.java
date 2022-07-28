@@ -1,8 +1,10 @@
 package com.example.spring_api.entity;
 
+import com.example.spring_api.utils.DateFormatter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.text.ParseException;
 import java.util.Date;
 
 @Entity
@@ -28,23 +30,13 @@ public class UserEntity {
     }
 
     public String toJson() {
-        return String.format("{\n" +
-                        "\"photoUrl\":\"%s\"," +
-                        "\"token\":\"%s\"," +
-                        "\"id\":%d,\n" +
-                        "\"email\":\"%s\"," +
-                        "\"location\":\"%s\"," +
-                        "\"surname\":\"%s\"," +
-                        "\"name\":\"%s\"," +
-                        "\"password\":\"%s\"," +
-                        "\"age\":%d,\n" +
-                        "\"updatedAt\":\"%s\"," +
-                        "\"createdAt\":\"%s\"," +
-                        "\"deletedAt\":\"%s\"" +
-                        "}", getPhotoUrl(), getToken(), getId(),
+        return String.format("{\"photoUrl\":\"%s\",\"token\":\"%s\",\"id\":%d,\"email\":\"%s\"," +
+                        "\"location\":\"%s\",\"surname\":\"%s\",\"name\":\"%s\",\"password\":\"%s\"," +
+                        "\"age\":%d,\"updatedAt\":\"%s\",\"createdAt\":\"%s\",\"deletedAt\":%s}",
+                getPhotoUrl(), getToken(), getId(),
                 getEmail(), getLocation(), getSurname(),
                 getName(), getPassword(), getAge(),
-                getUpdatedAt(), getCreatedAt(), getDeletedAt());
+                DateFormatter.format(getUpdatedAt()), DateFormatter.format(getCreatedAt()), DateFormatter.format(getDeletedAt()));
     }
 
     public Long getId() {
