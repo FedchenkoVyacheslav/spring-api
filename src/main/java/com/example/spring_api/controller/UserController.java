@@ -28,7 +28,7 @@ public class UserController {
         } catch (UserAlreadyExistException e) {
             return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(userService.returnResponse(false, "Error on saving!"));
+            return ResponseEntity.badRequest().body(userService.returnResponse(false, "\"Error on saving!\""));
         }
     }
 
@@ -78,7 +78,7 @@ public class UserController {
         } catch (UserNotFoundException | AuthorizationException e) {
             return new ResponseEntity(userService.returnResponse(false, e.getMessage()), HttpStatus.valueOf(422));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(userService.returnResponse(false, "Error!"));
+            return ResponseEntity.badRequest().body(userService.returnResponse(false, "\"Error!\""));
         }
     }
 }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class TagEntity {
@@ -15,9 +16,23 @@ public class TagEntity {
     private Long id;
     private String name;
     private String color;
+    private Date updatedAt = new Date(System.currentTimeMillis());
+    private Date createdAt = new Date(System.currentTimeMillis());
+    private Date deletedAt;
 
     public String toJson() {
         return String.format("{\"id\":%d,\"name\":\"%s\",\"color\":\"%s\"}", getId(), getName(), getColor());
+    }
+
+    public String toJson(int postId, int idTagInPost) {
+        Date updatedAtInPost = new Date(System.currentTimeMillis());
+        Date createdAtInPost = new Date(System.currentTimeMillis());
+        Date deletedAtInPost = null;
+
+        return String.format("{\"id\":%d,\"postId\":%d,\"tagId\":%d,\"createdAt\":\"%s\",\"updatedAt\":\"%s\",\"deletedAt\":%s," +
+                        "\"tag\":{\"id\":%d,\"name\":\"%s\",\"color\":\"%s\",\"createdAt\":\"%s\",\"updatedAt\":\"%s\",\"deletedAt\":%s}}",
+                idTagInPost, postId, getId(), createdAtInPost, updatedAtInPost, deletedAtInPost,
+                getId(), getName(), getColor(), getCreatedAt(), getUpdatedAt(), getDeletedAt());
     }
 
     public Long getId() {
@@ -42,5 +57,29 @@ public class TagEntity {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }
